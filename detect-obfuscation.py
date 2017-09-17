@@ -89,7 +89,6 @@ def read_text(filename):
 	with open(filename) as f: lines = [line.rstrip('\n') for line in f]
 	words = set()
 	for line in lines:
-		line = line.lower()
 		words.add(line)
 	return words
 
@@ -135,20 +134,25 @@ def calculate_probability(word,t):
 		return {"status":True,"eval":get_evaluation_factor(word),"prob":sum_prob,"text":word}
 
 def get_evaluation_factor(word):
-	return len(word) * (math.log(unknown_transition_prob,BASE) / 8)
+	if len(word) > 2000:
+		return (len(word) / 2) * (math.log(unknown_transition_prob,BASE) / 8)
+	else:	
+		return len(word) * (math.log(unknown_transition_prob,BASE) / 8)
 
 t = table()
-build_model("new_corpus",t)
+build_model("corpus_data_sorted",t)
 t.calculate()
 
 file = open("model_test","r")
 for line in file:
 	line = line.replace("\n","")
-	result = calculate_probability(line.lower(),t)
+	line = " ".join(line.split())
+	result = calculate_probability(line,t)
 	if result["status"]:
-		print result["text"] + bcolors.BOLD + bcolors.OKBLUE + " seems legit" + bcolors.ENDC
+		print bcolors.WARNING + result["text"] + bcolors.ENDC + bcolors.BOLD + bcolors.OKBLUE + " seems legit" + bcolors.ENDC
 	else:
-		print result["text"] + bcolors.BOLD + bcolors.FAIL + " seems random" + bcolors.ENDC
+		print bcolors.WARNING + result["text"] + bcolors.ENDC + bcolors.BOLD + bcolors.FAIL + " seems random" + bcolors.ENDC
+	print "String length: " + str(len(line))
 	print "Probability: " + str(result["prob"]) 
 	print "Evaluation Value: " + str(result["eval"])
 	print "-------------------------------------------------"
