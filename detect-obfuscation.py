@@ -151,7 +151,7 @@ for line in file:
 	if result["status"]:
 		print bcolors.WARNING + result["text"] + bcolors.ENDC + bcolors.BOLD + bcolors.OKBLUE + " seems legit" + bcolors.ENDC
 	else:
-		print bcolors.WARNING + result["text"] + bcolors.ENDC + bcolors.BOLD + bcolors.FAIL + " seems random" + bcolors.ENDC
+		print bcolors.WARNING + result["text"] + bcolors.ENDC + bcolors.BOLD + bcolors.FAIL + " seems obfuscated" + bcolors.ENDC
 	print "String length: " + str(len(line))
 	print "Probability: " + str(result["prob"]) 
 	print "Evaluation Value: " + str(result["eval"])
