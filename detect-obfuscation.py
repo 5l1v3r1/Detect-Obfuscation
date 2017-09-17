@@ -140,10 +140,10 @@ def get_evaluation_factor(word):
 		return len(word) * (math.log(unknown_transition_prob,BASE) / 8)
 
 t = table()
-build_model("corpus_data_sorted",t)
+build_model("corpus",t)
 t.calculate()
 
-file = open("model_test","r")
+file = open("test","r")
 for line in file:
 	line = line.replace("\n","")
 	line = " ".join(line.split())
